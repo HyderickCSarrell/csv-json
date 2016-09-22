@@ -43,18 +43,63 @@ public class Converter {
 		String colHeaders = "";
 		String rowHeaders = "";
 		String data = "";
+		int count = 0;
 		String[] parsedString;
-		CSVParser parser = new CSVParser(',','"','\n', true);
+		CSVParser parser = new CSVParser();
+		
 		try {
-			parsedString = parser.parseLine(csvString);
 			
-			colHeaders = '"' + "colHeaders" + '"' + ":" + "[" + '"' + parsedString[1];
+			Scanner unparsedString = new Scanner(csvString).useDelimiter("\n");
 			
-			for(int i = 2; i < 5; i++) {
-				colHeaders = colHeaders + "," + parsedString[i];
+			while(unparsedString.hasNext()) {
+				
+				parsedString = parser.parseLine(unparsedString.next());
+				
+				if (count == 0) {
+					
+					colHeaders = '"' + "colHeaders" + '"' + ":" + "[";
+					
+					for(int i = 2; i < parsedString.length; i++) {
+						colHeaders = colHeaders + "," + '"' + parsedString[i] + '"';
+					}
+					colHeaders = colHeaders + "]" + ",";
+					count = 1;
+				}
+				
+				else {
+					
+					if (rowHeaders == "") {
+						rowHeaders = '"' + "rowHeaders" + '"' + ":" + "[" + '"' + parsedString[0] + '"';
+					}
+					
+					else {
+						rowHeaders = rowHeaders + "," + '"' + parsedString[0] + '"';
+					}
+					
+					
+					if (data == "") {
+						data = '"' + "data" + '"' + ":" + "[" + "["+ parsedString[1];
+						
+						for(int i = 1; i < parsedString.length; i++) {
+							data = data + "," + parsedString[i];
+						}
+						data = data + "]" + "," + "\n" + "\t" + "\t" + "\t";
+					}
+					
+					else {
+						
+						data = data + "[" + parsedString[1];
+						
+						for(int i = 1; i < parsedString.length; i++) {
+							data = data + "," + parsedString[i];
+						}
+						data = data + "]" + "," + "\n" + "\t" + "\t" + "\t";
+					}
+					count++;
+				}
 			}
 			
-			newJsonString = "{" + "\n" + "\t" + colHeaders;
+			newJsonString = "{" + "\n" + "\t" + colHeaders + "\n" + "\t" + rowHeaders + "\n" + "\t" + data + "\n" + "\t" + "]" + "\n" + "}";
 			
 		}
 		catch(IOException ex){ex.printStackTrace();}

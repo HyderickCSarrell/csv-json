@@ -22,7 +22,7 @@ public class ConverterTest {
 		
 		try(Scanner csvFile = new Scanner(new File("C:/Users/Hyderick Sarrell/Documents/GitHub/csv-json/src/test/resources/grades.csv"))) {
 			while(csvFile.hasNext()) {
-				csvString = csvString + csvFile.nextLine() + '\n';
+				csvString = csvString + csvFile.nextLine() + "\n";
 			}
 		}
 		catch(IOException ex){ex.printStackTrace();}
@@ -43,13 +43,36 @@ public class ConverterTest {
 		String newJsonString;
 		
 		newJsonString = csvJsonConverter.csvToJson(csvString);
-		try {
+		/*try {
 		PrintWriter writer = new PrintWriter("outFile.txt");
 		writer.println(newJsonString);
 		writer.close();
 		}
 		catch(IOException ex){ex.printStackTrace();}
-        assertTrue(false);
+		*/
+		
+
+		try {
+			
+			JSONParser parser = new JSONParser();
+			Object originalStringObject = parser.parse(jsonString);
+			Object newStringObject = parser.parse(newJsonString);
+			
+			String[] originalString = (String[])originalStringObject;
+			String[] newString = (String[])newStringObject;
+			
+			for(int i = 0; i < originalString.length; i++) {
+				if (originalString[i] != newString[i]) {
+					assertTrue(false);
+				}
+				else {
+					assertTrue(true);
+				}
+			}
+		}
+		catch(ParseException ex){ex.printStackTrace();}
+		
+        //assertEquals(newJsonString, jsonString);
     }
 
     @Test
