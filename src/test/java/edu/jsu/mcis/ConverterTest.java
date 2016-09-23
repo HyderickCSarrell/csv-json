@@ -78,10 +78,10 @@ public class ConverterTest {
     @Test
     public void testConvertJSONtoCSV() {
         // You should test using the files in src/test/resources.
-		String newCsvString;
 		
+		String newCsvString;
 		newCsvString = csvJsonConverter.jsonToCsv(jsonString);
-        assertTrue(false);
+		assertTrue(false);
     }
 }
 

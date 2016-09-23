@@ -108,7 +108,37 @@ public class Converter {
     }
     
     public static String jsonToCsv(String jsonString) {
-        return "";
+		
+		String newCsvString = "";
+		JSONParser parser = new JSONParser();
+		int count = 0;
+		
+       	try {
+			Object jsonObj = parser.parse(jsonString);
+			String[] parsedString = (String[])jsonObj;
+			//Scanner unparsedString = new Scanner(jsonString).useDelimiter("\n"); 
+	
+			for(int i = 0; i < parsedString.length - 1; i++) {
+				
+				
+				if (i == 0) {
+					newCsvString = newCsvString + '"' + "ID" + '"' + ",";
+					
+					for(int j = 1; j < 3; i++) {
+						newCsvString = newCsvString + "," + '"' + parsedString[i] + '"';
+					}
+					newCsvString = newCsvString + "\n";
+				}
+				
+				else {
+					newCsvString = newCsvString + "," + '"' + parsedString[i] + '"';
+				}
+			}
+			
+		}
+		catch(ParseException ex){ex.printStackTrace();}
+		
+        return newCsvString;
     }
 }
 
