@@ -18,24 +18,28 @@ public class ConverterTest {
     public void setUp() {
 		csvString = "";
 		
-		csvJsonConverter = new Converter();
+		Converter csvJsonConverter = new Converter();
 		
 		try(Scanner csvFile = new Scanner(new File("C:/Users/Hyderick Sarrell/Documents/GitHub/csv-json/src/test/resources/grades.csv"))) {
 			while(csvFile.hasNext()) {
 				csvString = csvString + csvFile.nextLine() + "\n";
 			}
+			csvFile.close();
 		}
 		catch(IOException ex){ex.printStackTrace();}
 		
 		jsonString = "";
 		try(Scanner jsonFile = new Scanner(new File("C:/Users/Hyderick Sarrell/Documents/GitHub/csv-json/src/test/resources/grades.json"))) {
 			while(jsonFile.hasNext()) {
-				jsonString = jsonString + jsonFile.nextLine();
+				jsonString = jsonString + jsonFile.nextLine() + "\n";
 			}
+			jsonFile.close();
 		}
 		catch(IOException ex){ex.printStackTrace();}
 		
     }
+	
+	
     
     @Test
     public void testConvertCSVtoJSON() {
@@ -72,7 +76,6 @@ public class ConverterTest {
 		}
 		catch(ParseException ex){ex.printStackTrace();}
 		
-        //assertEquals(newJsonString, jsonString);
     }
 
     @Test

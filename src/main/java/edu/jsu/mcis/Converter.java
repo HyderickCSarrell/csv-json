@@ -106,37 +106,37 @@ public class Converter {
 		
         return newJsonString;
     }
-    
     public static String jsonToCsv(String jsonString) {
 		
 		String newCsvString = "";
-		JSONParser parser = new JSONParser();
-		int count = 0;
 		
-       	try {
-			Object jsonObj = parser.parse(jsonString);
-			String[] parsedString = (String[])jsonObj;
-			//Scanner unparsedString = new Scanner(jsonString).useDelimiter("\n"); 
-	
-			for(int i = 0; i < parsedString.length - 1; i++) {
-				
-				
+		try {
+			
+			JSONParser parser = new JSONParser();
+			
+			Object originalStringObject = parser.parse(jsonString);
+			
+			JSONArray originalString = (JSONArray)originalStringObject;
+		
+			for(int i = 0; i < originalString.size() - 1; i++) {
+					
+					
 				if (i == 0) {
 					newCsvString = newCsvString + '"' + "ID" + '"' + ",";
-					
+						
 					for(int j = 1; j < 3; i++) {
-						newCsvString = newCsvString + "," + '"' + parsedString[i] + '"';
+						newCsvString = newCsvString + "," + '"' + originalString.get(i) + '"';
 					}
 					newCsvString = newCsvString + "\n";
 				}
-				
+					
 				else {
-					newCsvString = newCsvString + "," + '"' + parsedString[i] + '"';
+					newCsvString = newCsvString + "," + '"' + originalString.get(i) + '"';
 				}
 			}
-			
 		}
 		catch(ParseException ex){ex.printStackTrace();}
+			
 		
         return newCsvString;
     }

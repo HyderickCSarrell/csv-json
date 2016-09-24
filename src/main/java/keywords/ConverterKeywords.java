@@ -15,13 +15,22 @@ public class ConverterKeywords {
     
     public String convertToCsv(String json) {
 		String csvString;
-		Converter 	JSONToCsvConverter = new Converter();
+		Converter JSONToCsvConverter = new Converter();
 		csvString = JSONToCsvConverter.jsonToCsv(json);
 		
         return csvString;
     }
     
     public boolean jsonStringsAreEqual(String s, String t) {
-        return false;
+		JSONParser parser = new JSONParser();
+		try {
+			Object sObj = parser.parse(s);
+			Object tObj = parser.parse(t);
+			return sObj.equals(tObj);
+		}
+		catch(ParseException e) {
+			return false;
+		}
+
     }
 }
